@@ -272,8 +272,7 @@ class Board():
 				self.last_made_move = self.best_move
 
 		(board, move_side) = self.fen_to_board(self.fen)
-		# remember to re-enable
-		# print('make_move: ' + self.parse_move(board, move, False))
+		print('make_move: ' + self.parse_move(board, move, False))
 
 		self.board = self.update_board(board, move)
 		
@@ -312,7 +311,6 @@ class Board():
 			if not ponder_time: ponder_time = '0'
 
 			moves = info['moves']
-			# remember to disable
 			print(moves)
 			self.best_move = moves[0]
 
@@ -327,8 +325,7 @@ class Board():
 			ponder_time = '%.1f' % (int(ponder_time) / 1000.0)
 			output_str = '\t'.join([depth, score, ponder_time, move_str_cat])
 
-			# remember to re-enable
-			# print(output_str)
+			print(output_str)
 			return output_str
 
 

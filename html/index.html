@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=470px, user-scalable=0">
+	<title>Remote Chess</title>
+	<script type="text/javascript" src="js/tool.js"></script>
+	<script type="text/javascript" src="js/board.js"></script>
+	<!-- disable drag -->
+	<!-- <script type="text/javascript" src="js/drag.js"></script> -->
+	<script type="text/javascript" src="js/ws.js"></script>
+	<script type="text/javascript" src="js/html2canvas.min.js"></script>
+	<script type="text/javascript" src="js/gb2312-utf8-convert.js"></script>
+	<script type="text/javascript" src="js/mobile.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/board.css">
+</head>
+<body>
+
+<div id="board_div"></div>
+
+<div id='div_settings'>
+<label>您也可以直接输入局面FEN串：</label><br>
+<input type="text" id="board_str" name="board_pos" value="rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w" size="72" onchange="initBoardPos(this.value)"><br>
+
+<div id="move_first">
+<input type="radio" name="move_side" value="red" id="red_move" class='move_side' checked onclick="switch_next_move()" /><label>红先</label>
+<input type="radio" name="move_side" value="black" id="black_move" class='move_side' onclick="switch_next_move()" /><label>黑先</label>
+</div>
+
+</div>
+
+<div id="log_container">
+<br>
+<div id="log"></div>
+</div>
+
+<img src="img/piece.gif" alt="点击添加棋子" id="piece_list">
+
+<div id="ctrl_buttons">
+<div>
+	<button class='board_ctrl' onclick="default_board();">开局</button>
+	<button class='board_ctrl' onclick="clearBoard()">清空</button>
+</div>
+<div>
+	<button class='board_ctrl' onclick="change_red_black();">红黑</button>
+	<button class='board_ctrl' onclick="change_left_right()">左右</button>
+</div>
+
+<div>
+	<button onclick="auth()">登录</button>
+	<button onclick="screenshot()">截图</button>
+</div>
+
+<div>
+	<button class='board_ctrl' id="his_back" onclick="history_back();">后退</button>
+	<button class='board_ctrl' id="his_forward" onclick="history_forward();">前进</button>
+</div>
+
+<div id="core_ctrl">
+	<button class='board_ctrl' id="ponder" onclick="ponder()">思考</button>
+	<button class='board_ctrl' id="move" onclick="move()" disabled>出招</button>
+</div>
+<br>
+
+<div id='search_buttons'>
+<label>请点击需要搜索的数据库：</label>
+<br>
+<!-- this does not work due to encoding reasons -->
+<!-- <form action="" target="_blank" onsubmit="this.action='http://www.dpxq.com/hldcg/search/search.asp';this.p.value=getbinit(document.getElementById('board_str').value);">
+	<input type="hidden" name="owner" value="大师对局" />
+	<input type="hidden" name="page" value="1" />
+	<input type="hidden" name="p" value="" />
+	<input type="submit" value="东萍对局" />
+</form>
+
+<form action="" target="_blank" onsubmit="this.action='http://www.dpxq.com/hldcg/search/search.asp';this.owner.value=GB2312UTF8.UTF8ToGB2312(this.owner.value);this.p.value=getbinit(document.getElementById('board_str').value);">
+	<input type="hidden" name="owner" value="棋友上传" />
+	<input type="hidden" name="page" value="1" />
+	<input type="hidden" name="p" value="" />
+	<input type="submit" value="东萍排局" />
+</form> -->
+
+<button onclick="var el=document.getElementById('dpxq_dsdj');el.href='http://www.dpxq.com/hldcg/search/search.asp?&page=1&owner=%B4%F3%CA%A6%B6%D4%BE%D6&p='+getbinit(document.getElementById('board_str').value);el.click();"><a id="dpxq_dsdj" href="" target="_blank"></a>东萍对局</button>
+<button onclick="var el=document.getElementById('dpxq_qysc');el.href='http://www.dpxq.com/hldcg/search/search.asp?&page=1&owner=%C6%E5%D3%D1%C9%CF%B4%AB&p='+getbinit(document.getElementById('board_str').value);el.click();"><a id="dpxq_qysc" href="" target="_blank"></a>东萍排局</button>
+
+<br>
+
+<button onclick="var el=document.getElementById('Engame_link');el.href='http://lpforth.forthfreak.net/xiangqi-js/xiangqi.htm?'+SFentoPFen(document.getElementById('board_str').value);el.click();"><a id="Engame_link" href="" target="_blank"></a>搜残局库</button>
+<button onclick="var el=document.getElementById('cloud_link');el.href='http://www.chessdb.cn/?'+document.getElementById('board_str').value;el.click();"><a id="cloud_link" href="" target="_blank"></a>搜云库</button>
+</div>
+
+</div>
+
+
+<img src="" width="51" height="51" id="dragimg">
+<a id="link"></a>
+
+</body>
+
+</html>

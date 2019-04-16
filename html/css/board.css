@@ -1,0 +1,80 @@
+﻿.table_board{width:459px;height:510px;background:#c7a46e url(../img/board.gif) no-repeat 0 12px;}
+.table_board td {width:51px;height:51px;text-align:center;line-height:34px;}
+.table_board .td_number{height:12px;font-size:12px;line-height:12px;color:#473c2c;}
+
+/*chess pieces with css background-position hack*/
+.chess{background:url(../img/piece.gif) no-repeat;}
+.null{background:none;}
+.rK{background-position:0 0;}
+.rA{background-position:-50px 0;}
+.rB{background-position:-100px 0;}
+.rN{background-position:-150px 0;}
+.rR{background-position:-200px 0;}
+.rC{background-position:-250px 0;}
+.rP{background-position:-300px 0;}
+
+.bk{background-position:0 -50px;}
+.ba{background-position:-50px -50px;}
+.bb{background-position:-100px -50px;}
+.bn{background-position:-150px -50px;}
+.br{background-position:-200px -50px;}
+.bc{background-position:-250px -50px;}
+.bp{background-position:-300px -50px;}
+
+#dragimg{position: fixed;left:-666px}
+img#piece_list{position: fixed;left:500px; top: 40px}
+
+div#ctrl_buttons{
+	position: fixed;
+	left:520px;
+	top: 150px
+}
+
+/*div#log{
+	position: fixed;
+	left:900px;
+	top: 20px;
+}*/
+
+@media screen and (min-width: 1000px){
+	div#log{
+		position: fixed;
+		left:900px;
+		top: 20px;
+	}
+}
+
+label,input,button{
+	font-size: 1.2em;
+	margin-top: 8px;
+}
+
+input[type='radio']
+{
+	width: 20px;
+	height: 20px;
+}
+
+#div_settings
+{
+	padding-top: 5px;
+}
+
+button,input[type='submit']
+{
+	width: 6em;
+	height: 1.8em;
+	/*padding-left: 50px;*/
+}
+
+.board_ctrl
+{
+	font-size: 1.2em;
+	/*width: 5em;*/
+}
+
+.mobile
+{
+	font-size: 1em;
+	width: 70px;
+}

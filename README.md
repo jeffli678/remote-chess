@@ -1,6 +1,10 @@
 # remote-chess
 remote-chess is a web UCCI front-end.
 
+## 0. Install dependencies 
+
+python -m pip install -r requirements.txt
+
 ## 1. Prepare chess engine
 
 Put the .exe of your engine in the engine folder. If it requires any license file(s), also put them in this folder. Make sure the engine can work properly.

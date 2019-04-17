@@ -21,7 +21,7 @@ def process_msg(ws, message):
 		return
 	elif check_ret == 'verify ok':
 		ws.send('Now you can use the engine')
-		print('Now Client(%r) is the engine user' % ws)
+		logging.info('Now Client(%r) is the engine user' % ws)
 		return
 
 	if message == 'stop': 
@@ -102,5 +102,5 @@ def start_server(interface, port):
 	server = WSGIServer((interface, port), app,
 					handler_class = WebSocketHandler)
 					
-	print('please point your browser to http://%s:%d' % (interface, port))
+	logging.info('please point your browser to http://%s:%d' % (interface, port))
 	server.serve_forever()

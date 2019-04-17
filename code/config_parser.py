@@ -10,7 +10,7 @@ def load_config():
 	else:
 		config_path = 'config-private.json'
 
-	print('using config file at: %s' % config_path)
+	logging.info('using config file at: %s' % config_path)
 	
 	with open(config_path) as json_data_file:
 		config = json.load(json_data_file)

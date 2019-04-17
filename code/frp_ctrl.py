@@ -37,4 +37,4 @@ def start_frpc():
     update_frpc_ini(frpc_ini_path)
 
     _ = subprocess.Popen('%s -c %s' % (frpc_path, frpc_ini_path), cwd = frpc_dir)
-    print('frpc started')
+    logging.info('frpc started')

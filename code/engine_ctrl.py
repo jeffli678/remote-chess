@@ -19,7 +19,7 @@ class Engine:
         self.write_input('ucci')
         self.idle_timer = None
         self.engine_user = None
-        print('init engine')
+        logging.info('init engine')
 
         self.output_thread = threading.Thread(target = self.format_ponder)
         self.output_thread.start()
@@ -40,7 +40,7 @@ class Engine:
                 line += char
     
     def stop(self):
-        print('stop')
+        logging.info('stop')
         self.write_input('stop')
         web_server.broadcast_msg('stop')
     
@@ -60,7 +60,7 @@ class Engine:
 
             self.write_input('position fen %s' % fen)
             self.write_input('go ponder')
-            print('ponder fen: %s' % fen)
+            logging.info('ponder fen: %s' % fen)
             return True
 
         else:
@@ -74,7 +74,7 @@ class Engine:
         
         self.idle_timer = threading.Timer(seconds, self.stop)
         self.idle_timer.start()
-        print('idle_timer set')
+        logging.info('idle_timer set')
 
     def format_ponder(self):
 

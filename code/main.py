@@ -10,10 +10,11 @@ import collections
 from config_parser import config
 import web_server 
 import frp_ctrl 
+import log_util
 
 def quit_watch_dog(quit_char = 'q'):
 
-	print('press %s to quit...' % quit_char)
+	logging.info('press %s to quit...' % quit_char)
 	while True:
 		try:
 			c = raw_input('')
@@ -21,7 +22,7 @@ def quit_watch_dog(quit_char = 'q'):
 			return
 
 		if c == quit_char:
-			print('quit...')
+			logging.info('quit...')
 			os._exit(0)
 
 def main():
@@ -37,7 +38,7 @@ def main():
 	if config['frp_reverse_proxy']:
 		frpc_thread = threading.Thread(target = frp_ctrl.start_frpc)
 		frpc_thread.start()
-	print('for public access, please visit http://%s:%s' % \
+	logging.info('for public access, please visit http://%s:%s' % \
 				(config['frp_server'], config['frp_remote_port']))
 
 	quit_watch_dog()

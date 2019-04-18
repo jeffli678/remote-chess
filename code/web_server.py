@@ -1,5 +1,7 @@
 # encoding: utf-8
 import time
+import Queue
+import threading
 from bottle import request, Bottle, abort, static_file
 
 from gevent.pywsgi import WSGIServer
@@ -12,6 +14,35 @@ from board_logic import board
 
 app = Bottle()
 clients = set()
+msg_queue = Queue.Queue()
+
+def queue_msg(message):
+	global msg_queue
+	msg_queue.put_nowait(message)
+
+def clear_msg_queue():
+
+	global msg_queue
+	while not msg_queue.empty():
+		try:
+			msg_queue.get(False)
+		except Queue.Empty:
+			continue
+		msg_queue.task_done()
+
+def message_broadcaster():
+
+	global msg_queue
+	while True:
+		msg = msg_queue.get(block = True)
+		broadcast_msg(msg)
+
+def broadcast_msg(message):
+	for ws in clients:
+		try:
+			ws.send(message)
+		except:
+			pass
 
 def process_msg(ws, message):
 	
@@ -27,11 +58,14 @@ def process_msg(ws, message):
 
 	if message == 'stop': 
 		engine.stop()
+		clear_msg_queue()
 
 	elif message == "ponder":
+		clear_msg_queue()
 		engine.ponder_fen()
 
 	elif message.startswith('move'): 
+		clear_msg_queue()
 		move = message[4 : ].strip()
 		if len(move) == 4:
 			engine.make_move(move)
@@ -42,17 +76,11 @@ def process_msg(ws, message):
 
 	elif message.startswith('fen:'): 
 
+		clear_msg_queue()
 		new_fen = message[4 : ].strip()
 		if not engine.ponder_fen(new_fen):
 			ws.send('invalid fen: %s' % new_fen)
 
-
-def broadcast_msg(message):
-	for ws in clients:
-		try:
-			ws.send(message)
-		except:
-			pass
 
 def new_client(ws):
 	if not ws == engine.engine_user:
@@ -104,4 +132,8 @@ def start_server(interface, port):
 					handler_class = WebSocketHandler)
 					
 	log('please point your browser to http://%s:%d' % (interface, port))
+
+	broadcaster_thread = threading.Thread(target = message_broadcaster)
+	broadcaster_thread.start()
+
 	server.serve_forever()

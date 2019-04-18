@@ -262,18 +262,39 @@ class Board():
 
 		return parsed_moves
 
+	def is_valid_move(self, board, move_side, move):
+
+		start = move[:2]
+		(start_row, start_column) = self.parse_pos(start)
+		piece_abbr = board[start_row][start_column]
+
+		move_side_piece = {'w': 'RNBAKCP', 'b': 'rnbakcp'}
+		return piece_abbr and piece_abbr in move_side_piece[move_side]
+
 	def make_move(self, move = ''):
 
-		if move == '' or move == 'ponderhit':
-			if self.last_made_move == self.best_move:
-				# the new best move is not yet updated. wait. just do nothing
-				return
-			else:
-				move = self.best_move
-				self.last_made_move = self.best_move
+		# if move == '' or move == 'ponderhit':
+		# 	if self.last_made_move == self.best_move:
+		# 		# the new best move is not yet updated. wait. just do nothing
+		# 		return
+		# 	else:
+		# 		move = self.best_move
+		# 		self.last_made_move = self.best_move
+
+		if self.best_move:
+			move = self.best_move	
+			self.best_move = ''
+		else:
+			# the new best move is not yet generated. wait. just do nothing
+			log('waiting for a best move')
+			return
 
 		(board, move_side) = self.fen_to_board(self.fen)
-		log('make_move: ' + self.parse_move(board, move, False))
+		if self.is_valid_move(board, move_side, move):
+			log('make_move: ' + self.parse_move(board, move, False))
+		else:
+			# this move is invalid or on the other side
+			return
 
 		self.board = self.update_board(board, move)
 		

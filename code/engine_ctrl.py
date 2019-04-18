@@ -84,10 +84,12 @@ class Engine:
             if not line.startswith('info '): 
                 continue
 
-            # info = board.parse_engine_info(line)
             output_str = board_logic.board.format_engine_line_info(line)
             if output_str:
-                web_server.broadcast_msg(output_str)
+                # because sending the message over the network is slow
+                # queue the message and send them one by one
+                web_server.queue_msg(output_str)
+                # web_server.broadcast_msg(output_str)
 
     def check_user(self, ws, message):
         

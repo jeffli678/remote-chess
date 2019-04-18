@@ -7,6 +7,7 @@ import re
 import time
 import json
 import collections
+from log_util import init_logging, log
 from config_parser import config
 import web_server 
 import frp_ctrl 
@@ -14,7 +15,7 @@ import log_util
 
 def quit_watch_dog(quit_char = 'q'):
 
-	logging.info('press %s to quit...' % quit_char)
+	log('press %s to quit...' % quit_char)
 	while True:
 		try:
 			c = raw_input('')
@@ -22,11 +23,11 @@ def quit_watch_dog(quit_char = 'q'):
 			return
 
 		if c == quit_char:
-			logging.info('quit...')
+			log('quit...\n')
 			os._exit(0)
 
 def main():
-	
+
 	server_thread = threading.Thread(target = web_server.start_server, \
 			args = [config['listen_interface'], config['listen_port']])
 	server_thread.start()
@@ -38,7 +39,7 @@ def main():
 	if config['frp_reverse_proxy']:
 		frpc_thread = threading.Thread(target = frp_ctrl.start_frpc)
 		frpc_thread.start()
-	logging.info('for public access, please visit http://%s:%s' % \
+	log('for public access, please visit http://%s:%s' % \
 				(config['frp_server'], config['frp_remote_port']))
 
 	quit_watch_dog()

@@ -2,6 +2,7 @@
 import os
 import subprocess
 import threading
+from log_util import log
 import config_parser 
 import board_logic 
 import web_server 
@@ -19,7 +20,7 @@ class Engine:
         self.write_input('ucci')
         self.idle_timer = None
         self.engine_user = None
-        logging.info('init engine')
+        log('init engine')
 
         self.output_thread = threading.Thread(target = self.format_ponder)
         self.output_thread.start()
@@ -40,7 +41,7 @@ class Engine:
                 line += char
     
     def stop(self):
-        logging.info('stop')
+        log('stop')
         self.write_input('stop')
         web_server.broadcast_msg('stop')
     
@@ -60,7 +61,7 @@ class Engine:
 
             self.write_input('position fen %s' % fen)
             self.write_input('go ponder')
-            logging.info('ponder fen: %s' % fen)
+            log('ponder fen: %s' % fen)
             return True
 
         else:
@@ -74,7 +75,7 @@ class Engine:
         
         self.idle_timer = threading.Timer(seconds, self.stop)
         self.idle_timer.start()
-        logging.info('idle_timer set')
+        log('idle_timer set')
 
     def format_ponder(self):
 

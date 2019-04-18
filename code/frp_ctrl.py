@@ -1,5 +1,6 @@
 import os
 import subprocess
+from log_util import log
 from config_parser import config
 
 def update_frpc_ini(frpc_ini_path):
@@ -37,4 +38,4 @@ def start_frpc():
     update_frpc_ini(frpc_ini_path)
 
     _ = subprocess.Popen('%s -c %s' % (frpc_path, frpc_ini_path), cwd = frpc_dir)
-    logging.info('frpc started')
+    log('frpc started')

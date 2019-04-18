@@ -1,6 +1,7 @@
 # encoding: utf-8
 import re
 import collections
+from log_util import log
 
 rows_count = 10
 columns_count = 9
@@ -50,7 +51,7 @@ class Board():
 		fen_str = '/'.join(fen) + ' ' + move_side
 
 		if not self.is_valid_fen(fen_str):
-			logging.info('board_to_fen() generates invalid fen: %s ' % fen_str)
+			log('board_to_fen() generates invalid fen: %s ' % fen_str)
 
 		return fen_str
 
@@ -89,7 +90,7 @@ class Board():
 			valid_fen = False
 
 		if not valid_fen:
-			logging.info('unexpected fen: %s' % fen)
+			log('unexpected fen: %s' % fen)
 
 		return valid_fen
 
@@ -105,7 +106,7 @@ class Board():
 		board_str = fen.split(' ')[0]
 		rows_str = board_str.split('/')
 		if len(rows_str) != rows_count: 
-			logging.info('unexpected board_str: %s' % board_str)
+			log('unexpected board_str: %s' % board_str)
 			return (board, move_side)
 		
 		for row_str in rows_str:
@@ -272,7 +273,7 @@ class Board():
 				self.last_made_move = self.best_move
 
 		(board, move_side) = self.fen_to_board(self.fen)
-		logging.info('make_move: ' + self.parse_move(board, move, False))
+		log('make_move: ' + self.parse_move(board, move, False))
 
 		self.board = self.update_board(board, move)
 		
@@ -311,7 +312,7 @@ class Board():
 			if not ponder_time: ponder_time = '0'
 
 			moves = info['moves']
-			logging.info(moves)
+			log(moves)
 			self.best_move = moves[0]
 
 			(board, move_side) = self.fen_to_board(self.fen)
@@ -325,7 +326,7 @@ class Board():
 			ponder_time = '%.1f' % (int(ponder_time) / 1000.0)
 			output_str = '\t'.join([depth, score, ponder_time, move_str_cat])
 
-			logging.info(output_str)
+			log(output_str)
 			return output_str
 
 

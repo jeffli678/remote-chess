@@ -1,6 +1,8 @@
 # encoding: utf-8
 import json
 import os
+import logging
+from log_util import log
 
 def load_config():
 
@@ -10,7 +12,7 @@ def load_config():
 	else:
 		config_path = 'config-private.json'
 
-	logging.info('using config file at: %s' % config_path)
+	log('using config file at: %s' % config_path)
 	
 	with open(config_path) as json_data_file:
 		config = json.load(json_data_file)

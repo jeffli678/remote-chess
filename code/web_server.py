@@ -6,6 +6,7 @@ from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
+from log_util import log
 from engine_ctrl import engine
 from board_logic import board
 
@@ -21,7 +22,7 @@ def process_msg(ws, message):
 		return
 	elif check_ret == 'verify ok':
 		ws.send('Now you can use the engine')
-		logging.info('Now Client(%r) is the engine user' % ws)
+		log('Now Client(%r) is the engine user' % ws)
 		return
 
 	if message == 'stop': 
@@ -102,5 +103,5 @@ def start_server(interface, port):
 	server = WSGIServer((interface, port), app,
 					handler_class = WebSocketHandler)
 					
-	logging.info('please point your browser to http://%s:%d' % (interface, port))
+	log('please point your browser to http://%s:%d' % (interface, port))
 	server.serve_forever()
